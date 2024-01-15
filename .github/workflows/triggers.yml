@@ -1,0 +1,40 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Learning triggers
+
+
+on:
+  push:
+    branches:
+      - main
+      - aprendiendo-github-actions
+  pull_request:
+    branches:
+      - main
+      - aprendiendo-github-actions
+  schedule:
+    - cron: '0 0 * * *' # Run every day at midnight UTC
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+      confirm-deployment:
+        description: 'Confirm deployment'
+        required: false
+        default: 'false'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+            node-version: 18
+
+      - name: Set up environment
+        run: node main.js
+       
